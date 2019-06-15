@@ -1,0 +1,174 @@
+import tkinter
+from tkinter import *
+import time
+
+
+
+produkty = ["pomidor", "Marchew", "Jablko", 'wisnia']
+cena = [1, 3, 2, 5]
+slownik = dict(zip(produkty, cena))
+
+pro1 = produkty[0]
+pro2 = produkty[1]
+pro3 = produkty[2]
+pro4 = produkty[3]
+dane1 = cena[0]
+dane2 = cena[1]
+dane3 = cena[2]
+dane4 = cena[3]
+top = tkinter.Tk()
+lista = []
+
+top.minsize(600,450)
+top.maxsize(600, 2000)
+napis='1234678910'
+
+
+z='{}-{}-{}-{}'.format(napis[0:3],napis[3:6],napis[6:8],napis[8:10])
+czas = time.localtime()
+
+Ldata='{}-{}-{}'.format(czas.tm_year,czas.tm_mon,czas.tm_mday)
+Pdata='{}:{}'.format(czas.tm_hour,czas.tm_min)
+def update_time():
+    L4['text'] = time.strftime('%H:%M:%S')
+    top.after(1000, update_time)
+
+
+C1Var=BooleanVar()
+C2Var=BooleanVar()
+C3Var=BooleanVar()
+C4Var=BooleanVar()
+var=IntVar()
+def buttonDodaj():
+    global lista
+    if C1Var.get() == True:
+        L5 = tkinter.Label(top, text = pro1)
+        L5.pack()
+        lista.append(dane1)
+    else:
+        pass
+    if C2Var.get() == True:
+        L6 = tkinter.Label(top, text = pro2)
+        L6.pack()
+        lista.append(dane2)
+    else:
+        pass
+
+    if C3Var.get() == True:
+        L7 = tkinter.Label(top, text=pro3)
+        L7.pack()
+        lista.append(dane3)
+    else:
+        pass
+    if C4Var.get() == True:
+        L8 = tkinter.Label(top, text=pro4)
+        L8.pack()
+        lista.append(dane4)
+    else:
+        pass
+
+def buttonKoniec():
+
+    top.quit()
+
+
+def suma():
+    global sumaVar
+    sumaVar = IntVar()
+    sumaVar = sum(lista)
+    Lsuma.configure(text=sumaVar)
+
+    top.after(1000,suma)
+def wybor():
+
+    if var.get()==1:
+        selection = "karta "
+    else:
+        selection = "gotowka"
+
+    L12.config(text = selection)
+def ile():
+    global il
+    il=IntVar()
+    il=len(lista)
+    Lilosc.configure(text=il)
+
+    top.after(1000,ile)
+def reszta():
+        wsad=StringVar()
+        ans = sumaVar - int(blank.get())
+        wsad.set(ans)
+
+        num1.configure(textvariable=wsad)
+
+
+
+L1 = tkinter.Label(top, width=35, text="Spozywczy DPE SP.zoo \n 71-560 Szczecin, UL.Wojska Polskiego 10")
+L2 = tkinter.Label(top, width=35, text=z)
+L3 = tkinter.Label(top, width=35, text=Ldata)
+L4 = tkinter.Label(top, width=20, text='00:00:00')
+L4 = tkinter.Label(top, width=20, text='00:00:00')
+Lsuma=tkinter.Label(top,text='')
+LLsuma=tkinter.Label(top,text='do zaplaty:')
+ilosc=tkinter.Label(top,text='ILOSC:')
+Lilosc=tkinter.Label(top,text='')
+L8=tkinter.Label(top,text='podaj kwote:')
+L9=tkinter.Label(top,text='RESZTA: ')
+
+Breszta=tkinter.Button(top,text='reszta',command=reszta)
+L10=tkinter.Radiobutton(top,text='karta',variable=var, value=1, command=wybor)
+L11=tkinter.Radiobutton(top,text='gotowka',variable=var, value=2, command=wybor)
+L12=tkinter.Label()
+produkt1 =tkinter.Checkbutton(top, text = pro1, onvalue = 1, offvalue = 0 ,var=C1Var)
+produkt2=tkinter.Checkbutton(top, text = pro2, onvalue = 1, offvalue = 0, var=C2Var)
+produkt3 =tkinter.Checkbutton(top, text = pro3, onvalue = 1, offvalue = 0 ,var=C3Var)
+produkt4=tkinter.Checkbutton(top, text = pro4, onvalue = 1, offvalue = 0, var=C4Var)
+
+
+dodaj = tkinter.Frame(top)
+dodajPro = tkinter.Button(dodaj, text='dodaj', command=buttonDodaj)
+koniec=tkinter.Button(dodaj,text='koniec', command=buttonKoniec)
+
+
+num1= Entry(top)
+num2 = Entry(top)
+blank = tkinter.Entry(top)
+
+
+L1.pack()
+L2.pack()
+L3.pack()
+L4.pack()
+
+
+produkt1.pack()
+produkt2.pack()
+produkt3.pack()
+produkt4.pack()
+
+dodaj.pack()
+dodajPro.pack()
+Breszta.pack()
+koniec.pack()
+L10.pack()
+L11.pack()
+L12.pack()
+
+Lilosc.pack(side=RIGHT)
+ilosc.pack(side=RIGHT)
+
+blank.pack(side=RIGHT)
+L8.pack(side=RIGHT)
+
+L9.pack(side=LEFT)
+num1.pack(side=LEFT)
+
+LLsuma.pack(side=TOP)
+Lsuma.pack(side=TOP)
+
+
+update_time()
+suma()
+
+ile()
+top.mainloop()
